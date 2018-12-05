@@ -29,9 +29,9 @@ class CreateUsersTable extends Migration
             $kolom->string('namaRole');
         });
 
-        Schema::table('users', function (Blueprint $kolom) {
-            $kolom->foreign('role_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
-        });
+        #Schema::table('users', function (Blueprint $kolom) {
+         #   $kolom->foreign('role_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
+       # });
 }
 
     /**

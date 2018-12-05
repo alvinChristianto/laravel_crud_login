@@ -19,20 +19,24 @@ class registerController extends Controller
 
 
 		$user = new User;
-		$user->role_id = 1;
+		#$user->role_id = 1;
+		$user->role_id = DB::table('roles')
+							->select('id')
+							->where('namaRole','Pengguna')
+							->first()
+							->id;
 		$user->username = $request->username;
 		$user->name = $request->name;
 		$user->email = $request->email;
 		$user->password = encrypt(Input::get('password'));
-		// $user->role_id = DB::table('roles')->select('id')->where('namaRole','Pengguna')->first();
-		
+		#dd($request->username);
 		
 
 		$user->save();
-		Route::get('/', function () { 
-			return redirect('welcome')->with('status', 'Data Inserted!');
+		error_log("message 11");
 		
-		});
+   		return view('login.login');
+
 		#dd("username " );
 	}
 }
