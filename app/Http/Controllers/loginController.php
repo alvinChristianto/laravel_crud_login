@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class loginController extends Controller
 {   
@@ -30,8 +31,10 @@ class loginController extends Controller
             $email = $request->inputEmailUser;
             $pass = $request->password;
             $data = User::where ('email', $email)->first();
-            dd($data->password);
+            #dd($data);
             if(count($data) > 0){
+                Log::info('passinput '.$pass);
+                Log::info('hash |'.$data->password.'| hash');
                 if(Hash::check($pass, $data->password)){
                     #Session::put('name', $data->name);
                     #Session::put('email', $data->email);
