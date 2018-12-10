@@ -18,14 +18,17 @@ class loginController extends Controller
     }
     public function getLogin()
     {
-    	return view('login.login');
+        if(Session::has('name')){
+            return redirect('/homepage');
+        }else{
+    	   return view('login.login');
+        }
     }
    
     public function postLogin(Request $request)
     {
         if(Session::has('name')){
             #$sessValue = $request->session()->flush();
-            dd($sessValue);
             return 'already logins';
         }else{
             $email = $request->inputEmailUser;
@@ -36,11 +39,12 @@ class loginController extends Controller
                 Log::info('passinput '.$pass);
                 Log::info('hash |'.$data->password.'| hash');
                 if(Hash::check($pass, $data->password)){
-                    #Session::put('name', $data->name);
-                    #Session::put('email', $data->email);
-                    #Session::put('login', TRUE);
+                    Session::put('name', $data->name);
+                    Session::put('email', $data->email);
+                    Session::put('login', TRUE);
                     #return redirect('success')->with('status', 'success login');
-                    return view('homepage');
+                    session()->flash('success', $data->name); 
+                    return redirect('/homepage');
                 }else
                 {
                     return 'salah password!';
@@ -53,5 +57,6 @@ class loginController extends Controller
      public function logout(Request $request)
     {
         $request->session()->flush();
+        return view('login.login');
     }
 }

@@ -33,20 +33,10 @@ class registerController extends Controller
 		$user->password = Hash::make($request->password);
 		
 		#dd($request->password);
-		if(Hash::check($request->password, $user->password)){
-			Log::info('input '.$request->password);
-			Log::info('hash '.$user->password);	
-			Log::info('cucok ');
-		}
-		else{
-			Log::info('input |'.$request->password);
-			Log::info('hash |'.$user->password.'| hash');	
-			Log::info('not cucok');	
-		}
-		$user->save();
-		error_log("message 11");
 		
-   		return view('login.login');
+		$user->save();
+		session()->flash('success', 'You have Successfully Registered'); 
+    	return redirect('/login');
 
 		#dd("username " );
 	}

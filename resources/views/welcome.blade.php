@@ -78,6 +78,7 @@
             @endif
 
             <div class="content">
+                {{Session::get('success')}}
                 <div class="title m-b-md">
                     Laravel
                 </div>
