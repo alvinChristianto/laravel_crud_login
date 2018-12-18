@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use App\roleModel;
+use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
@@ -29,15 +30,29 @@ class registerController extends Controller
 		$user->username = $request->username;
 		$user->name = $request->name;
 		$user->email = $request->email;
-		#$user->password = encrypt(Input::get('password'));
-		$user->password = Hash::make($request->password);
 		
-		#dd($request->password);
+		$dataEmailExist = User::where('email',$user->email)->first();
+		$dataUsernameExist = User::where('username',$user->username)->first();
+		#dd($dataUserAlready);
+		if(count($dataEmailExist) > 0){
+			session()->flash('error',"already Registered : {$dataEmailExist->email}"); 
+    		return \Redirect::back()->withInput();
+    	}else if (count($dataUsernameExist) > 0 ){
+    		session()->flash('error',"already Registered : {$dataUsernameExist->username}"); 
+    		return \Redirect::back()->withInput();	
+    	}else{
+			#$user->password = encrypt(Input::get('password'));
+			$user->password = Hash::make($request->password);
 		
-		$user->save();
-		session()->flash('success', 'You have Successfully Registered'); 
-    	return redirect('/login');
+			#dd($request->password);
+		
+			$user->save();
+			session()->flash('success', 'You have Successfully Registered'); 
+    		return redirect('/login');
+	
+		}
 
+		
 		#dd("username " );
 	}
 }

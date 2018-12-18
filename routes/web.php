@@ -21,3 +21,12 @@ Route::get('login', 'loginController@getLogin')->name('login');
 Route::post('postRegister', 'registerController@postRegister');
 Route::post('postLogin', 'loginController@postLogin');
 Route::get('logout','loginController@logout')->name('logout');
+
+Route::get('create', 'createController@createPost')->name('create');
+
+Route::get('/front', function () {
+    return view('pages.front');
+});
+Route::get('/about', function () {
+    return view('pages.contact');
+});

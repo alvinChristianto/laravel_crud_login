@@ -12,24 +12,25 @@ use Illuminate\Support\Facades\Log;
 
 class loginController extends Controller
 {   
-    public function successLogin()
+    public function successLogin(Request $request)
     {
-        return view('homepage');
+        $data = $request->session()->has('name');
+        Log::debug('data!!'.$data);
+        return view('welcome'); 
     }
     public function getLogin()
     {
-        if(Session::has('name')){
-            return redirect('/homepage');
-        }else{
-    	   return view('login.login');
-        }
+
+         return view('login.login');
     }
    
     public function postLogin(Request $request)
     {
         if(Session::has('name')){
+            $data = $request->session()->all();
+            dd($data);
             #$sessValue = $request->session()->flush();
-            return 'already logins';
+            return redirect('/homepage');
         }else{
             $email = $request->inputEmailUser;
             $pass = $request->password;
@@ -42,21 +43,26 @@ class loginController extends Controller
                     Session::put('name', $data->name);
                     Session::put('email', $data->email);
                     Session::put('login', TRUE);
+                    Log::debug('--------------------------------log name -> '.$data->name);
+                    Log::debug('--------------------------------log email -> '.$data->email);
+
                     #return redirect('success')->with('status', 'success login');
                     session()->flash('success', $data->name); 
                     return redirect('/homepage');
                 }else
                 {
-                    return 'salah password!';
+                    session()->flash('wrongPs', 'wrong password ! '); 
+                    return \Redirect::back()->withInput();
                 }
             }else{
-                return 'tidak ada account';
+                    session()->flash('noUser', 'no user matched with data inserted !, please register '); 
+                    return \Redirect::back()->withInput();
             }
         }
     }
      public function logout(Request $request)
     {
         $request->session()->flush();
-        return view('login.login');
+        return redirect('/'); 
     }
 }
