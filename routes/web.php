@@ -23,7 +23,7 @@ Route::post('postLogin', 'loginController@postLogin');
 Route::get('logout','loginController@logout')->name('logout');
 
 Route::get('create', 'createController@createPost')->name('create');
-
+Route::post('postBlog', 'createController@sendPost')->name('postBlog');
 Route::get('/front', function () {
     return view('pages.front');
 });

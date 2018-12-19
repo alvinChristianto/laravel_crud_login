@@ -23,19 +23,19 @@
 	
 				<h1 class="h3 mb-3 font-weight-normal">Register</h1>
 				<label for="inputEmail" class="sr-only">Email address</label>
-				<input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" value ="{{ old('email') }}" required autofocus>
+				<input type="email" id="inputEmail" name="email" class="form-control mb-1" placeholder="Email address" value ="{{ old('email') }}" required autofocus>
 
 				<label for="inputUsername" class="sr-only">Username</label>
-				<input type="text" id="username" name="username" class="form-control" placeholder="username" value ="{{ old('username') }}" required autofocus>
+				<input type="text" id="username" name="username" class="form-control mb-1" placeholder="username" value ="{{ old('username') }}" required autofocus>
 
 				<label for="inputNama" class="sr-only">Nama</label>
-				<input type="text" id="Nama" name="name" class="form-control" placeholder="Nama" value ="{{ old('name') }}" required autofocus>
+				<input type="text" id="Nama" name="name" class="form-control mb-1" placeholder="Nama" value ="{{ old('name') }}" required autofocus>
 
 				<label for="inputPassword" class="sr-only">Password</label>
-				<input type="password" id="inputPassword1" name="password" class="form-control" placeholder="Password" required>
+				<input type="password" id="inputPassword1" name="password" class="form-control mb-1" placeholder="Password" required>
 
 				<label for="inputPassword" class="sr-only">retype Password</label>
-				<input type="password" id="inputPassword2" name="password1" class="form-control" placeholder="retype Password" required> 
+				<input type="password" id="inputPassword2" name="password1" class="form-control mb-1" placeholder="retype Password" required> 
 				<div class="checkbox mb-3">
 					<label>
 						<input type="checkbox" value="remember-me"> Remember me

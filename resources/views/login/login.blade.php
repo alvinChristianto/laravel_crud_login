@@ -23,22 +23,19 @@
 		  		
 				<h1 class="h3 mb-3 font-weight-normal">Login</h1>
 				<label for="inputEmail" class="sr-only">Input email or Username</label>
-				<input type="text" id="inputEmail" class="form-control" name="inputEmailUser" placeholder="Email address" value ="{{ old('inputEmailUser') }}"required autofocus>
+				<input type="text" id="inputEmail" class="form-control mb-1" name="inputEmailUser" placeholder="Email address" value ="{{ old('inputEmailUser') }}"required autofocus>
 				@if($message = Session::get('noUser')) 
-					<div class="text-danger font-weight-bold font-italic" role="alert">
-		  				{{ $message }}
-					</div>
+					<span class="error-span text-danger font-weight-bold">{{ $message }}</span>
 				@endif
 
 				<label for="inputPassword" class="sr-only">Password</label>
 				<input type="password" name="password" id="inputPassword1" class="form-control" placeholder="Password" required>
 				@if($message = Session::get('wrongPs')) 
-					<div class="text-danger font-weight-bold font-italic" role="alert">
-		  				{{ $message }}
-					</div>
+					<span class="error-span text-danger font-weight-bold">{{ $message }}</span>
 				@endif
-
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+				<div class="mt-3">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+				</div>
 				</br>
 				<a class="mb-3" href="{{ route('register') }}">Register</a>	
 		</form>

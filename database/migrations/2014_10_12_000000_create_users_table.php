@@ -32,7 +32,7 @@ class CreateUsersTable extends Migration
         #Schema::table('users', function (Blueprint $kolom) {
          #   $kolom->foreign('role_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
        # });
-}
+    }
 
     /**
      * Reverse the migrations.
