@@ -49,14 +49,23 @@ class createController extends Controller
     	}else{
 		
 			$blog->save();
-			session()->flash('success', 'You have Successfully Registered'); 
-    		dd($blog->save());
-    		return redirect('/homepage');
+			session()->flash('success', 'your post have been saved !'); 
+    		#dd($blog->save());
+    		return redirect('/list_post');
 			
 		}
-
-	
-
+    }
+    public function list_post()
+    {
+		$listpost = DB::table('createblog')
+					->orderByRaw('updated_at - created_at DESC')
+					->get();
+		if(count($listpost) > 0 ){
+			return view('post.list_post', ['listpost' => $listpost]);
+		}else{
+			session()->flash('nodata',"no data found");
+			return view('post.list_post');
+       	}
     }
  
 }

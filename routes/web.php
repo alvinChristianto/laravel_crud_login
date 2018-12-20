@@ -24,6 +24,7 @@ Route::get('logout','loginController@logout')->name('logout');
 
 Route::get('create', 'createController@createPost')->name('create');
 Route::post('postBlog', 'createController@sendPost')->name('postBlog');
+Route::get('list_post', 'createController@list_post')->name('list_post');
 Route::get('/front', function () {
     return view('pages.front');
 });

@@ -5,7 +5,13 @@
 @section('main')
 
   <div class="container">
-       
+            @if ($message = Session::get('success'))
+                  <div class="alert alert-success alert-block mt-2">
+                    <button type="button" class="close" data-dismiss="alert">×</button> 
+                      <strong>{{ $message }}</strong>
+                  </div>
+            @endif
+
         <div class="content">
         @if (Session::has('email'))
             <div class="title m-b-md">

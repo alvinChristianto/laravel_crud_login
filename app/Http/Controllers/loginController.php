@@ -47,7 +47,7 @@ class loginController extends Controller
                     Log::debug('--------------------------------log email -> '.$data->email);
 
                     #return redirect('success')->with('status', 'success login');
-                    session()->flash('success', $data->name); 
+                    #session()->flash('success', $data->name); 
                     return redirect('/homepage');
                 }else
                 {

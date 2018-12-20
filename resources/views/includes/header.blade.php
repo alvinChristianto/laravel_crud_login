@@ -10,6 +10,9 @@
         <a class="nav-link" href="{{ route('create') }}">Create Something</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{{ route('list_post') }}">Your Post</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}">Logout</a>
       </li>
       @else
