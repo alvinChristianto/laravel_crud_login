@@ -58,7 +58,7 @@ class createController extends Controller
     public function list_post()
     {
 		$listpost = DB::table('createblog')
-					->orderByRaw('updated_at - created_at DESC')
+					->orderBy('created_at','DESC')
 					->get();
 		if(count($listpost) > 0 ){
 			return view('post.list_post', ['listpost' => $listpost]);
@@ -67,6 +67,50 @@ class createController extends Controller
 			return view('post.list_post');
        	}
     }
+
+    public function preview($id)
+    {
+    	$prev = blog::find($id);
+    	$prevpost = DB::table('createblog')->where('id', $id)->first();
+    	
+		// $img = DB::table('article_image')->where('id', '1')->value('id_art');
+    	return view('post.preview', ['prevpost'=>$prevpost]);
+    }
  
+ 	public function edit($id)
+ 	{
+ 		$editblog = DB::table('createblog')->where('id', $id)
+ 					->first();
+ 		return view('post.edit', ['editblog'=>$editblog]);
+	}
+
+	public function edit_post($id, Request $request)
+ 	{	
+
+ 		DB::table('createblog')
+	            ->where('id', $id)
+    	        ->update(['judul' => $request->judul, 
+    	        		 'subjudul' => $request->subjudul,
+    	        		 'createby' => $request->by,
+    	        		 'para1' => $request->para1,
+    	        		 'para2' => $request->para2,
+    	        		 'para3' => $request->para3]);
+
+	 	$listpost = DB::table('createblog')
+						->orderBy('created_at','DESC')
+						->get();
+	 	session()->flash('success', 'your post have been Edit !'); 
+	    		#dd($blog->save());
+	    return redirect('/list_post');
+ 	}
+
+ 	public function delete($id)
+ 	{
+ 		DB::table('createblog')->where('id', '=', $id)->delete();
+
+		session()->flash('success', 'your post have been Delete !'); 
+	    return redirect('/list_post');
+ 	}
+
 }
 

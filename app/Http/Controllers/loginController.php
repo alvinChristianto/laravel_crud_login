@@ -20,8 +20,11 @@ class loginController extends Controller
     }
     public function getLogin()
     {
-
-         return view('login.login');
+        if(Session::has('name')){
+            return view('welcome');
+        }else{
+            return view('login.login');
+        }
     }
    
     public function postLogin(Request $request)

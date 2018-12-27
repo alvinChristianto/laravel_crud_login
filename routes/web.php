@@ -25,6 +25,12 @@ Route::get('logout','loginController@logout')->name('logout');
 Route::get('create', 'createController@createPost')->name('create');
 Route::post('postBlog', 'createController@sendPost')->name('postBlog');
 Route::get('list_post', 'createController@list_post')->name('list_post');
+Route::get('/preview/{id}', 'createController@preview')->name('preview');
+Route::get('/preview/{id}/edit', 'createController@edit')->name('edit');
+Route::post('edit_post/{id}', 'createController@edit_post')->name('edit_post');
+
+Route::delete('/preview/{id}/delete', 'createController@delete')->name('delete');
+
 Route::get('/front', function () {
     return view('pages.front');
 });
