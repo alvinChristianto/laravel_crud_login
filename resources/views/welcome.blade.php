@@ -1,9 +1,12 @@
 
 @extends('layouts.app')
-@section('title', 'home')
-        
-@section('main')
+@if (Session::has('Session_email'))
+    @section('title', 'login')
+@else
+    @section('title', 'no login')
+@endif
 
+@section('main')
   <div class="container">
             @if ($message = Session::get('success'))
                   <div class="alert alert-success alert-block mt-2">
@@ -13,12 +16,12 @@
             @endif
 
         <div class="content">
-        @if (Session::has('email'))
+        @if (Session::has('Session_email'))
             <div class="title m-b-md">
                 Welcome 
             </div>
             <div class="links">
-                <a>welcome, <i>{{ Session::get('email') }}</i> </a>
+                <a>welcome, <i>{{ Session::get('Session_email') }}  </i> </a>
                 
             </div>
         @else

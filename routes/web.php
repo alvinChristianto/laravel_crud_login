@@ -13,7 +13,11 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('404', ['as' => '404', 'uses' => 'ErrorController@notfound']);
+Route::get('500', ['as' => '500', 'uses' => 'ErrorController@fatal']);
+Route::get('401', ['as' => '401', 'uses' => 'ErrorController@unauthorized']);
 
 Route::get('homepage', 'loginController@successLogin');
 Route::get('register', 'registerController@getRegister')->name('register');

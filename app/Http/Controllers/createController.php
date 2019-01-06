@@ -17,13 +17,24 @@ class createController extends Controller
 {
 	public function createPost(Request $request)
     {
-    	return view('post.create');
+    	if(Session::has('Session_email')){
+            return view('post.create');
+        }else{
+        	return redirect('/'); 
+    	}
+    	
     }
     public function sendPost(Request $request)
-    {
+    {	
+
+
+		function getIdPost(){
+			$post = 'post'.'_';
+			return uniqid($post);
+		};
 
 		$blog = new blog;
-
+		$blog->id = getIdPost();
 		$blog->judul = $request->judul;
 		#dd($request->judul);
 		$blog->subjudul = $request->subjudul;
@@ -57,51 +68,71 @@ class createController extends Controller
     }
     public function list_post()
     {
-		$listpost = DB::table('createblog')
-					->orderBy('created_at','DESC')
-					->get();
-		if(count($listpost) > 0 ){
-			return view('post.list_post', ['listpost' => $listpost]);
-		}else{
-			session()->flash('nodata',"no data found");
-			return view('post.list_post');
-       	}
+    	if(Session::has('Session_email')){
+        	$listpost = DB::table('createblog')
+						->orderBy('created_at','DESC')
+						->get();
+			if(count($listpost) > 0 ){
+				return view('post.list_post', ['listpost' => $listpost]);
+			}else{
+				session()->flash('nodata',"no data found");
+				return view('post.list_post');
+	       	}
+	    }else{
+        	return redirect('401'); 
+    	}
+		
     }
 
     public function preview($id)
     {
-    	$prev = blog::find($id);
-    	$prevpost = DB::table('createblog')->where('id', $id)->first();
+    	if(Session::has('Session_email')){
+        	$prev = blog::find($id);
+	    	$prevpost = DB::table('createblog')->where('id', $id)->first();
     	
-		// $img = DB::table('article_image')->where('id', '1')->value('id_art');
-    	return view('post.preview', ['prevpost'=>$prevpost]);
+			// $img = DB::table('article_image')->where('id', '1')->value('id_art');
+    		return view('post.preview', ['prevpost'=>$prevpost]);
+        }else{
+        	return redirect('401'); 
+    	}
+    	
     }
  
  	public function edit($id)
  	{
- 		$editblog = DB::table('createblog')->where('id', $id)
- 					->first();
- 		return view('post.edit', ['editblog'=>$editblog]);
+ 		if(Session::has('Session_email')){ 	
+	 		$editblog = DB::table('createblog')->where('id', $id)
+	 					->first();
+	 		return view('post.edit', ['editblog'=>$editblog]);
+
+        }else{
+        	return redirect('401'); 
+    	}
 	}
 
 	public function edit_post($id, Request $request)
  	{	
+ 		if(Session::has('Session_email')){ 	
 
- 		DB::table('createblog')
-	            ->where('id', $id)
-    	        ->update(['judul' => $request->judul, 
-    	        		 'subjudul' => $request->subjudul,
-    	        		 'createby' => $request->by,
-    	        		 'para1' => $request->para1,
-    	        		 'para2' => $request->para2,
-    	        		 'para3' => $request->para3]);
+	 		DB::table('createblog')
+		            ->where('id', $id)
+	    	        ->update(['judul' => $request->judul, 
+	    	        		 'subjudul' => $request->subjudul,
+	    	        		 'createby' => $request->by,
+	    	        		 'para1' => $request->para1,
+	    	        		 'para2' => $request->para2,
+	    	        		 'para3' => $request->para3]);
 
-	 	$listpost = DB::table('createblog')
-						->orderBy('created_at','DESC')
-						->get();
-	 	session()->flash('success', 'your post have been Edit !'); 
-	    		#dd($blog->save());
-	    return redirect('/list_post');
+		 	$listpost = DB::table('createblog')
+							->orderBy('created_at','DESC')
+							->get();
+		 	session()->flash('success', 'your post have been Edit !'); 
+		    		#dd($blog->save());
+		    return redirect('/list_post');
+        }else{
+        	return redirect('401'); 
+    	}
+
  	}
 
  	public function delete($id)

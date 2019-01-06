@@ -19,9 +19,15 @@ class registerController extends Controller
 	}
 	public function postRegister(Request $request)
 	{
-
+		
+		function getUniqueId(){
+			$date = date('Ymd');
+			$datenow = $date.'_';
+			return uniqid($datenow);
+		};
 
 		$user = new User;
+		$user->id = getUniqueId();
 		$user->role_id = DB::table('roles')
 							->select('id')
 							->where('namaRole','Pengguna')
@@ -43,7 +49,7 @@ class registerController extends Controller
     	}else{
 			#$user->password = encrypt(Input::get('password'));
 			$user->password = Hash::make($request->password);
-		
+			
 			#dd($request->password);
 		
 			$user->save();
@@ -52,7 +58,5 @@ class registerController extends Controller
 	
 		}
 
-		
-		#dd("username " );
 	}
 }

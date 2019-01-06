@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Create post')
 @section('main')
 <div class="container">
     <div class="row justify-content-center">
@@ -76,7 +77,7 @@
                     <div class="form-group">
                         <div class="">
                             <button type="submit" class="btn btn-primary text-capitalize">
-                             tambah data redaksi
+                             Post
                          </button>
                      </div>
                  </div>

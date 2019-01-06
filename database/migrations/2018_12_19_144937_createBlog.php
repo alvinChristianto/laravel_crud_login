@@ -14,7 +14,7 @@ class CreateBlog extends Migration
     public function up()
     {
          Schema::create('createBlog', function (Blueprint $table) {
-            $table->increments('id');
+            $table->string('id')->unique();
             $table->string('judul');
             $table->string('subjudul');
             $table->string('createby');

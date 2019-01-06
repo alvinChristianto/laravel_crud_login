@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use DB;
 // use App\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,13 +15,13 @@ class loginController extends Controller
 {   
     public function successLogin(Request $request)
     {
-        $data = $request->session()->has('name');
+        $data = $request->session()->has('Session_email');
         Log::debug('data!!'.$data);
         return view('welcome'); 
     }
     public function getLogin()
     {
-        if(Session::has('name')){
+        if(Session::has('Session_email')){
             return view('welcome');
         }else{
             return view('login.login');
@@ -29,28 +30,46 @@ class loginController extends Controller
    
     public function postLogin(Request $request)
     {
-        if(Session::has('name')){
+        if(Session::has('Session_email')){
             $data = $request->session()->all();
             dd($data);
             #$sessValue = $request->session()->flush();
             return redirect('/homepage');
         }else{
-            $email = $request->inputEmailUser;
+            $emailAdd = $request->inputEmailUser;
             $pass = $request->password;
-            $data = User::where ('email', $email)->first();
-            #dd($data);
-            if(count($data) > 0){
-                Log::info('passinput '.$pass);
-                Log::info('hash |'.$data->password.'| hash');
-                if(Hash::check($pass, $data->password)){
-                    Session::put('name', $data->name);
-                    Session::put('email', $data->email);
-                    Session::put('login', TRUE);
-                    Log::debug('--------------------------------log name -> '.$data->name);
-                    Log::debug('--------------------------------log email -> '.$data->email);
+            
+            #get role_id of user
+            $role_id = \DB::table('Users')
+                     ->select ('role_id')
+                     ->where('email','=', $emailAdd)
+                     ->get();
+            #dd($role_id[0]->role_id);
+                    
 
-                    #return redirect('success')->with('status', 'success login');
-                    #session()->flash('success', $data->name); 
+            #collection if else example
+#            foreach ($role_id as $role_id) {
+#                echo $role_id[0]->role_id;
+#                if($role_id->role_id == 2){
+#                    echo "admin";
+#                }else{
+#                    echo "user";
+#                }
+#            }
+            $dataEmail = User::where ('email', $emailAdd)->first(); 
+            
+            if(count($dataEmail) > 0){
+                Log::info('hash |'.$dataEmail->password.'| hash');
+                if(Hash::check($pass, $dataEmail->password)){
+                    if($role_id[0]->role_id == '2'){
+                        Session::put('Session_role_admin', $role_id[0]->role_id);
+                    }else{
+                        Session::put('Session_role_user', $role_id[0]->role_id);
+                    };
+                    Session::put('Session_email', $dataEmail->email);
+                    Session::put('Session_login', TRUE);
+    
+                    Log::debug('--------------------------------log email -> '.$dataEmail->email);
                     return redirect('/homepage');
                 }else
                 {
