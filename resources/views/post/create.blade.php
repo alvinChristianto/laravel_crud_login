@@ -30,9 +30,11 @@
                         @endif
                     </div>
                     <div class="form-group">
+                        @if (Session::has('Session_email')) 
                         <label for="formGroupExampleInput2">diterbitkan oleh</label>
-                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" name="by"  value="{{old('by')}}">
-                        
+                        <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="" name="by"  value="{{ Session::get('Session_username') }}" readonly="readonly">
+                        @endif
+
                         @if ($message = Session::get('error_by'))
                         <span class="error-span text-danger text-weight-bold">{{ $message }} </span>
                         @endif

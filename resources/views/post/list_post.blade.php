@@ -25,7 +25,7 @@
                         <small>{{ $listpost->id }}</small>
                     </div>
                     <p class="mb-1">{{ $listpost->subjudul }}</p>
-                    <small><i>{{ $listpost->created_at }}</i></small>
+                    <small><i>{{ $listpost->created_at }} - <b>{{ $listpost->createby }}</b></i></small>
                 </a>
                 @endforeach
                 </div>

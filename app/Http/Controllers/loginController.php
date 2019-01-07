@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Log;
 
+
 class loginController extends Controller
 {   
     public function successLogin(Request $request)
@@ -67,9 +68,10 @@ class loginController extends Controller
                         Session::put('Session_role_user', $role_id[0]->role_id);
                     };
                     Session::put('Session_email', $dataEmail->email);
+                    Session::put('Session_username', $dataEmail->username);
                     Session::put('Session_login', TRUE);
     
-                    Log::debug('--------------------------------log email -> '.$dataEmail->email);
+                    Log::channel('log_app')->info('LOGIN >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username);
                     return redirect('/homepage');
                 }else
                 {
@@ -84,7 +86,17 @@ class loginController extends Controller
     }
      public function logout(Request $request)
     {
+        $Ses_email = $request->session()->get('Session_email');
+        $Ses_username = $request->session()->get('Session_username');
+        if($request->session()->has('Session_role_admin') == TRUE){
+            $Ses_role_id = $request->session()->get('Session_role_admin');
+        }else{
+            $Ses_role_id = $request->session()->get('Session_role_user');    
+        }
+
         $request->session()->flush();
+        Log::channel('log_app')->info('LOGOUT >> '.$Ses_email.'|'.$Ses_role_id.'|'.$Ses_username);
+                   
         return redirect('/'); 
     }
 }

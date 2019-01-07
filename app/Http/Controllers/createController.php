@@ -36,7 +36,6 @@ class createController extends Controller
 		$blog = new blog;
 		$blog->id = getIdPost();
 		$blog->judul = $request->judul;
-		#dd($request->judul);
 		$blog->subjudul = $request->subjudul;
 		$blog->createby = $request->by;
 		$blog->para1 = $request->para1;
@@ -67,9 +66,21 @@ class createController extends Controller
 		}
     }
     public function list_post()
-    {
-    	if(Session::has('Session_email')){
+    {	
+    	if(Session::has('Session_email') && Session::has('Session_role_admin')){
         	$listpost = DB::table('createblog')
+						->orderBy('created_at','DESC')
+						->get();
+			if(count($listpost) > 0 ){
+				return view('post.list_post', ['listpost' => $listpost]);
+			}else{
+				session()->flash('nodata',"no data found");
+				return view('post.list_post');
+	       	}
+		}
+		elseif(Session::has('Session_email') && Session::has('Session_role_user')){
+			$listpost = DB::table('createblog')
+						->where('createby','=',Session::get('Session_username'))
 						->orderBy('created_at','DESC')
 						->get();
 			if(count($listpost) > 0 ){
