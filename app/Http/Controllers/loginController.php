@@ -39,12 +39,14 @@ class loginController extends Controller
         }else{
             $emailAdd = $request->inputEmailUser;
             $pass = $request->password;
-            
+
+                    
             #get role_id of user
             $role_id = \DB::table('Users')
                      ->select ('role_id')
                      ->where('email','=', $emailAdd)
                      ->get();
+            Log::channel('log_app')->info('Try To Login >> '.$emailAdd.'|'.$pass.'|'.$role_id.'|');
             #dd($role_id[0]->role_id);
                     
 
@@ -60,7 +62,6 @@ class loginController extends Controller
             $dataEmail = User::where ('email', $emailAdd)->first(); 
             
             if(count($dataEmail) > 0){
-                Log::info('hash |'.$dataEmail->password.'| hash');
                 if(Hash::check($pass, $dataEmail->password)){
                     if($role_id[0]->role_id == '2'){
                         Session::put('Session_role_admin', $role_id[0]->role_id);
@@ -71,14 +72,16 @@ class loginController extends Controller
                     Session::put('Session_username', $dataEmail->username);
                     Session::put('Session_login', TRUE);
     
-                    Log::channel('log_app')->info('LOGIN >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username);
+                    Log::channel('log_app')->info('LOGIN Success >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username);
                     return redirect('/homepage');
                 }else
                 {
+                    Log::channel('log_app')->info('Try To Login >> Wrong Password @'.$emailAdd);
                     session()->flash('wrongPs', 'wrong password ! '); 
                     return \Redirect::back()->withInput();
                 }
             }else{
+                    Log::channel('log_app')->info('Try To Login >> no user existed ! @'.$emailAdd);
                     session()->flash('noUser', 'no user matched with data inserted !, please register '); 
                     return \Redirect::back()->withInput();
             }
@@ -95,7 +98,7 @@ class loginController extends Controller
         }
 
         $request->session()->flush();
-        Log::channel('log_app')->info('LOGOUT >> '.$Ses_email.'|'.$Ses_role_id.'|'.$Ses_username);
+        Log::channel('log_app')->info('LOGOUT Success >> '.$Ses_email.'|'.$Ses_role_id.'|'.$Ses_username);
                    
         return redirect('/'); 
     }

@@ -18,8 +18,7 @@ class registerController extends Controller
 		return view('register.register');
 	}
 	public function postRegister(Request $request)
-	{
-		
+	{        
 		function getUniqueId(){
 			$date = date('Ymd');
 			$datenow = $date.'_';
@@ -27,7 +26,6 @@ class registerController extends Controller
 		};
 
 		$user = new User;
-		$user->id = getUniqueId();
 		$user->role_id = DB::table('roles')
 							->select('id')
 							->where('namaRole','Pengguna')
@@ -36,23 +34,27 @@ class registerController extends Controller
 		$user->username = $request->username;
 		$user->name = $request->name;
 		$user->email = $request->email;
+		Log::channel('log_app')->info('Try to Register >> '.$request->email.'|'.$request->name.'|'.$request->username.'|'.$request->password.'|');
 		
 		$dataEmailExist = User::where('email',$user->email)->first();
 		$dataUsernameExist = User::where('username',$user->username)->first();
 		#dd($dataUserAlready);
 		if(count($dataEmailExist) > 0){
+			Log::channel('log_app')->info('Try to Register >> already exist @'.$request->email);
 			session()->flash('error',"already Registered : {$dataEmailExist->email}"); 
     		return \Redirect::back()->withInput();
     	}else if (count($dataUsernameExist) > 0 ){
+			Log::channel('log_app')->info('Try to Register >> already exist @'.$request->username);
     		session()->flash('error',"already Registered : {$dataUsernameExist->username}"); 
     		return \Redirect::back()->withInput();	
     	}else{
 			#$user->password = encrypt(Input::get('password'));
+			$user->id = getUniqueId();
 			$user->password = Hash::make($request->password);
 			
-			#dd($request->password);
-		
 			$user->save();
+			#$user->id not displayed well
+			Log::channel('log_app')->info('Register Success >> '.$user->id.'|'.$user->email.'|'.$user->name.'|hash pass> '.$user->password.'|'.$user->role_id.'|');
 			session()->flash('success', 'You have Successfully Registered'); 
     		return redirect('/login');
 	

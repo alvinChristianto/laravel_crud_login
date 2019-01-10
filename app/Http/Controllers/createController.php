@@ -17,7 +17,8 @@ class createController extends Controller
 {
 	public function createPost(Request $request)
     {
-    	if(Session::has('Session_email')){
+    	if(Session::has('Session_email')){    
+       		Log::channel('log_app')->info('OpenPage: Create >> '.Session::get('Session_email').'|');
             return view('post.create');
         }else{
         	return redirect('/'); 
@@ -26,51 +27,61 @@ class createController extends Controller
     }
     public function sendPost(Request $request)
     {	
+    	if(Session::has('Session_email')){    
+	       	Log::channel('log_app')->info('Create: Create post input >> '.$request->judul.'|'.$request->subjudul.'|'.$request->by.'|'.$request->para1.'|'.$request->para2.'|'.$request->para3.'|');
+	        
 
+			function getIdPost(){
+				$post = 'post'.'_';
+				return uniqid($post);
+			};
+			$blog = new blog;
+	
+				
+			if(strlen($blog->judul) > 150){
+				session()->flash('error_Judul',"judul terlalu panjang : " .strlen($blog->judul). " karakter"); 
+	    		return \Redirect::back()->withInput();
+	    	}else if (strlen($blog->subjudul) > 150){
+				session()->flash('error_Subjudul',"subjudul terlalu panjang : " .strlen($blog->subjudul). " karakter"); 
+	    		return \Redirect::back()->withInput();	
+	    	}else if (strlen($blog->createby) > 150){
+				session()->flash('error_by',"nama penulis terlalu panjang : " .strlen($blog->createby). " karakter"); 
+	    		return \Redirect::back()->withInput();	
+			}else if (strlen($blog->para1) > 1000){
+				session()->flash('error_Para1',"paragrap terlalu panjang : " .strlen($blog->para1). " karakter"); 
+	    		return \Redirect::back()->withInput();	
+	    	    	
 
-		function getIdPost(){
-			$post = 'post'.'_';
-			return uniqid($post);
-		};
+	    	}else{
+	
+				$blog->id = getIdPost();
+				$blog->judul = $request->judul;
+				$blog->subjudul = $request->subjudul;
+				$blog->createby = $request->by;
+				$blog->para1 = $request->para1;
+				$blog->para2 = $request->para2;
+				$blog->para3 = $request->para3;
+	
+				$blog->save();
 
-		$blog = new blog;
-		$blog->id = getIdPost();
-		$blog->judul = $request->judul;
-		$blog->subjudul = $request->subjudul;
-		$blog->createby = $request->by;
-		$blog->para1 = $request->para1;
-		$blog->para2 = $request->para2;
-		$blog->para3 = $request->para3;
-		
-		if(strlen($blog->judul) > 150){
-			session()->flash('error_Judul',"judul terlalu panjang : " .strlen($blog->judul). " karakter"); 
-    		return \Redirect::back()->withInput();
-    	}else if (strlen($blog->subjudul) > 150){
-			session()->flash('error_Subjudul',"subjudul terlalu panjang : " .strlen($blog->subjudul). " karakter"); 
-    		return \Redirect::back()->withInput();	
-    	}else if (strlen($blog->createby) > 150){
-			session()->flash('error_by',"nama penulis terlalu panjang : " .strlen($blog->createby). " karakter"); 
-    		return \Redirect::back()->withInput();	
-		}else if (strlen($blog->para1) > 1000){
-			session()->flash('error_Para1',"paragrap terlalu panjang : " .strlen($blog->para1). " karakter"); 
-    		return \Redirect::back()->withInput();	
-    	    	
-
-    	}else{
-		
-			$blog->save();
-			session()->flash('success', 'your post have been saved !'); 
-    		#dd($blog->save());
-    		return redirect('/list_post');
-			
-		}
-    }
+				Log::channel('log_app')->info('Create: Create post saved >> '.$blog->id.'|'.$blog->judul.'|'.$blog->subjudul.'|'.$request->createby.'|'.$request->para1.'|'.$request->para2.'|'.$request->para3.'|');
+				session()->flash('success', 'your post have been saved !'); 
+	    		#dd($blog->save());
+	    		return redirect('/list_post');
+				
+			}
+	    }
+	}
     public function list_post()
     {	
+        
     	if(Session::has('Session_email') && Session::has('Session_role_admin')){
         	$listpost = DB::table('createblog')
 						->orderBy('created_at','DESC')
 						->get();
+
+			Log::channel('log_app')->info('OpenPage: List post >> '.Session::get('Session_email').'|'.Session::get('Session_role_admin').'|'.count($listpost).'|');
+
 			if(count($listpost) > 0 ){
 				return view('post.list_post', ['listpost' => $listpost]);
 			}else{
@@ -83,6 +94,8 @@ class createController extends Controller
 						->where('createby','=',Session::get('Session_username'))
 						->orderBy('created_at','DESC')
 						->get();
+			Log::channel('log_app')->info('OpenPage: List post >> '.Session::get('Session_email').'|'.Session::get('Session_role_user').'|'.count($listpost).'|');
+				
 			if(count($listpost) > 0 ){
 				return view('post.list_post', ['listpost' => $listpost]);
 			}else{
@@ -100,8 +113,9 @@ class createController extends Controller
     	if(Session::has('Session_email')){
         	$prev = blog::find($id);
 	    	$prevpost = DB::table('createblog')->where('id', $id)->first();
-    	
-			// $img = DB::table('article_image')->where('id', '1')->value('id_art');
+
+	    	Log::channel('log_app')->info('OpenPage: Preview >> '.$prevpost->id.'|'.$prevpost->judul.'|');
+
     		return view('post.preview', ['prevpost'=>$prevpost]);
         }else{
         	return redirect('401'); 
@@ -114,6 +128,8 @@ class createController extends Controller
  		if(Session::has('Session_email')){ 	
 	 		$editblog = DB::table('createblog')->where('id', $id)
 	 					->first();
+	 		Log::channel('log_app')->info('OpenPage: edit post >> '.$editblog->id.'|'.$editblog->judul.'|');
+ 
 	 		return view('post.edit', ['editblog'=>$editblog]);
 
         }else{
