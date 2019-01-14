@@ -72,7 +72,12 @@ class loginController extends Controller
                     Session::put('Session_username', $dataEmail->username);
                     Session::put('Session_login', TRUE);
     
-                    Log::channel('log_app')->info('LOGIN Success >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username);
+                    #update ketika login (users->updated_at)
+                    $dataEmail->updated_at = date("Y-m-d H:i:s");
+                    $dataEmail->save();
+
+                    Log::channel('log_app')->info('LOGIN Success >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username.'|updated_at : '.$dataEmail->updated_at.'|');
+
                     return redirect('/homepage');
                 }else
                 {

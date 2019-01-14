@@ -50,6 +50,8 @@ class registerController extends Controller
     	}else{
 			#$user->password = encrypt(Input::get('password'));
 			$user->id = getUniqueId();
+			$user->created_at = date("Y-m-d H:i:s");
+			$user->updated_at = date("Y-m-d H:i:s");
 			$user->password = Hash::make($request->password);
 			
 			$user->save();
