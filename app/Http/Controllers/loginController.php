@@ -42,7 +42,7 @@ class loginController extends Controller
 
                     
             #get role_id of user
-            $role_id = \DB::table('Users')
+            $role_id = \DB::table('users')
                      ->select ('role_id')
                      ->where('email','=', $emailAdd)
                      ->get();
