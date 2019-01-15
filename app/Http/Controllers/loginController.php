@@ -52,7 +52,8 @@ class loginController extends Controller
                      ->where('email','=', $emailAdd)
                      ->get();
             Log::channel('log_app')->info('Try To Login >> '.$emailAdd.'|'.$pass.'|'.$role_id.'|');
-            error_log("Try To Login >>");
+            error_log('Try To Login >>'.$emailAdd.'|'.$pass.'|'.$role_id.'|');
+
             #dd($role_id[0]->role_id);
                     
 
@@ -84,15 +85,23 @@ class loginController extends Controller
 
                     Log::channel('log_app')->info('LOGIN Success >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username.'|updated_at : '.$dataEmail->updated_at.'|');
 
+                    error_log('Login Success >> '.$dataEmail->email.'|'.$role_id[0]->role_id.'|'.$dataEmail->username.'|updated_at : '.$dataEmail->updated_at.'|');
+
                     return redirect('/homepage');
                 }else
                 {
                     Log::channel('log_app')->info('Try To Login >> Wrong Password @'.$emailAdd);
+                    
+                    error_log('Try To Login >> Wrong Password @'.$emailAdd);
+
                     session()->flash('wrongPs', 'wrong password ! '); 
                     return \Redirect::back()->withInput();
                 }
             }else{
                     Log::channel('log_app')->info('Try To Login >> no user existed ! @'.$emailAdd);
+
+                    error_log('Try To Login >> no user existed ! @'.$emailAdd);        
+
                     session()->flash('noUser', 'no user matched with data inserted !, please register '); 
                     return \Redirect::back()->withInput();
             }
@@ -110,7 +119,10 @@ class loginController extends Controller
 
         $request->session()->flush();
         Log::channel('log_app')->info('LOGOUT Success >> '.$Ses_email.'|'.$Ses_role_id.'|'.$Ses_username);
-                   
+
+
+        error_log('LOGOUT Success >> '.$Ses_email.'|'.$Ses_role_id.'|'.$Ses_username);
+         
         return redirect('/'); 
     }
 }
