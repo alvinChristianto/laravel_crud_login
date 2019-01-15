@@ -81,7 +81,7 @@ class createController extends Controller
     {	
         
     	if(Session::has('Session_email') && Session::has('Session_role_admin')){
-        	$listpost = DB::table('createblog')
+        	$listpost = DB::table('createBlog')
 						->orderBy('created_at','DESC')
 						->get();
 
@@ -95,7 +95,7 @@ class createController extends Controller
 	       	}
 		}
 		elseif(Session::has('Session_email') && Session::has('Session_role_user')){
-			$listpost = DB::table('createblog')
+			$listpost = DB::table('createBlog')
 						->where('createby','=',Session::get('Session_username'))
 						->orderBy('created_at','DESC')
 						->get();
@@ -117,7 +117,7 @@ class createController extends Controller
     {
     	if(Session::has('Session_email')){
         	$prev = blog::find($id);
-	    	$prevpost = DB::table('createblog')->where('id', $id)->first();
+	    	$prevpost = DB::table('createBlog')->where('id', $id)->first();
 
 	    	Log::channel('log_app')->info('OpenPage: Preview >> '.$prevpost->id.'|'.$prevpost->judul.'|');
 
@@ -131,7 +131,7 @@ class createController extends Controller
  	public function edit($id)
  	{
  		if(Session::has('Session_email')){ 	
-	 		$editblog = DB::table('createblog')->where('id', $id)
+	 		$editblog = DB::table('createBlog')->where('id', $id)
 	 					->first();
 	 		Log::channel('log_app')->info('OpenPage: edit post >> '.$editblog->id.'|'.$editblog->judul.'|');
  
@@ -146,7 +146,7 @@ class createController extends Controller
  	{	
  		if(Session::has('Session_email')){ 	
 
-	 		DB::table('createblog')
+	 		DB::table('createBlog')
 		            ->where('id', $id)
 	    	        ->update(['judul' => $request->judul, 
 	    	        		 'subjudul' => $request->subjudul,
@@ -155,7 +155,7 @@ class createController extends Controller
 	    	        		 'para2' => $request->para2,
 	    	        		 'para3' => $request->para3]);
 
-		 	$listpost = DB::table('createblog')
+		 	$listpost = DB::table('createBlog')
 							->orderBy('created_at','DESC')
 							->get();
 		 	session()->flash('success', 'your post have been Edit !'); 
@@ -169,7 +169,7 @@ class createController extends Controller
 
  	public function delete($id)
  	{
- 		DB::table('createblog')->where('id', '=', $id)->delete();
+ 		DB::table('createBlog')->where('id', '=', $id)->delete();
 
 		session()->flash('success', 'your post have been Delete !'); 
 	    return redirect('/list_post');

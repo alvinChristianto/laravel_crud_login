@@ -52,6 +52,7 @@ class loginController extends Controller
                      ->where('email','=', $emailAdd)
                      ->get();
             Log::channel('log_app')->info('Try To Login >> '.$emailAdd.'|'.$pass.'|'.$role_id.'|');
+            error_log("Try To Login >>");
             #dd($role_id[0]->role_id);
                     
 
