@@ -23,7 +23,7 @@ class loginController extends Controller
     {
         $data = $request->session()->has('Session_email');
         Log::debug('data!!'.$data);
-        return view('welcome'); 
+        return view('front'); 
     }
     public function getLogin()
     {

@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front');
 })->name('home');
 
 Route::get('404', ['as' => '404', 'uses' => 'ErrorController@notfound']);

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    @include('includes.head')
+    @include('basefile.head')
 </head>
 <body>
     <div class="container-fluid">
-         @include('includes.header')
+         @include('basefile.header')
     </div>
     @yield('main')
     <footer class="page-footer font-small blue">
 
-       @include('includes.footer')
+       @include('basefile.footer')
 
     </footer>
 </body>
