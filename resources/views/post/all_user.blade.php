@@ -20,7 +20,11 @@
               @foreach ($alluser as $alluser1)
                 <tr>
                   <th scope="row"><?php echo $num ?></th>
-                  <td>{{ $alluser1 -> username }}</td>
+                  <td>
+                      <a href="{{ $alluser1 -> id }}"> 
+                        {{ $alluser1 -> username }} 
+                      </a>
+                  </td>
                   <td>{{ $alluser1 -> email }}</td>
                   <td>{{ $alluser1 -> role_id }}</td>
                 </tr>

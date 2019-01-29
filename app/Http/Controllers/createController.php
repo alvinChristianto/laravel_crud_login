@@ -78,14 +78,17 @@ class createController extends Controller
 	    }
 	}
 
-	public function seePost()
+	public function seePost($id)
 	{
-		$listpost = DB::table('createBlog')
-                    ->orderBy('created_at','DESC')
-                    ->get();
+		#$prev = blog::find($id);
+	    $listpost = DB::table('createBlog')->where('id', $id)->first();
+		#$listpost = DB::table('createBlog')
+        #           ->orderBy('created_at','DESC')
+        #          ->get();
 
 		#dd($listpost);
     	return view('post.postPreview', ['listpost' => $listpost]);
+    
         
 	}
     public function list_post()

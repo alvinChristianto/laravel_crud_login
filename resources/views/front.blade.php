@@ -53,8 +53,9 @@
               <a href="#">{{ $listpost1 -> createby }}</a>
               on {{ $listpost1 -> created_at }}</p>
           </div>
-          @endforeach
           <hr>
+          @endforeach
+          
           <!-- Pager -->
           <div class="clearfix">
             <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
@@ -62,7 +63,7 @@
         </div>
       </div>
     </div>
-    @endif
     <hr>
+    @endif
     @endsection
    
