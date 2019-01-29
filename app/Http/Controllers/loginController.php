@@ -19,11 +19,26 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 
 class loginController extends Controller
 {   
+    public function homepage()
+    {
+        return view('front');
+    }
     public function successLogin(Request $request)
     {
         $data = $request->session()->has('Session_email');
         Log::debug('data!!'.$data);
-        return view('front'); 
+        $listpost = DB::table('createBlog')
+                    ->orderBy('created_at','DESC')
+                    ->get();
+
+
+        if(count($listpost) > 0 ){
+            #dd($listpost);
+            return view('front', ['listpost' => $listpost]);
+        }else{
+            session()->flash('nodata',"no data found");
+                return view('front');
+        }
     }
     public function getLogin()
     {

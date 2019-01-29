@@ -11,6 +11,9 @@
          <ul class="navbar-nav">
             @if (Session::has('Session_email') && Session::has('Session_role_admin'))
             <li class="nav-item">
+              <a class="nav-link" href="{{ route('all_user') }}">All User</a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{{ route('list_post') }}">All Post</a>
             </li>
             <li class="nav-item">

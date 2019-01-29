@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\blog;
+use Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
 
 if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
     // Ignores notices and reports all other kinds... and warnings
@@ -12,23 +19,22 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    public function frontData()
+    {   
+        $listpost = DB::table('createBlog')
+                    ->orderBy('created_at','DESC')
+                    ->get();
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('home');
+
+        if(count($listpost) > 0 ){
+            #dd($listpost);
+            return view('front', ['listpost' => $listpost]);
+        }else{
+            session()->flash('nodata',"no data found");
+                return view('front');
+        }
     }
+    
+   
+   
 }

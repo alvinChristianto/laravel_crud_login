@@ -10,10 +10,12 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+#Route::get('/', function () {
+#	Route::get('homeController@frontData');
+#})->name('home');
 
-Route::get('/', function () {
-    return view('front');
-})->name('home');
+Route::get('/', 'HomeController@frontData')->name('home');
+
 
 Route::get('404', ['as' => '404', 'uses' => 'ErrorController@notfound']);
 Route::get('500', ['as' => '500', 'uses' => 'ErrorController@fatal']);
@@ -24,11 +26,16 @@ Route::get('register', 'registerController@getRegister')->name('register');
 Route::get('login', 'loginController@getLogin')->name('login');
 Route::post('postRegister', 'registerController@postRegister');
 Route::post('postLogin', 'loginController@postLogin');
+Route::get('all_user', 'registerController@alluser')->name('all_user');
+
 Route::get('logout','loginController@logout')->name('logout');
+
 
 Route::get('create', 'createController@createPost')->name('create');
 Route::post('postBlog', 'createController@sendPost')->name('postBlog');
 Route::get('list_post', 'createController@list_post')->name('list_post');
+Route::get('/post/{id}', 'createController@seePost')->name('post');
+
 Route::get('/preview/{id}', 'createController@preview')->name('preview');
 Route::get('/preview/{id}/edit', 'createController@edit')->name('edit');
 Route::post('edit_post/{id}', 'createController@edit_post')->name('edit_post');

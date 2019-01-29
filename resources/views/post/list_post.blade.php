@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('title', 'List Post')
 @section('main')
+
 <div class="container">
+   <div class="mt-3"><br><br></div>
     <div class="row justify-content-center">
         <div class="col-md-12 py-4">
             @if ($message = Session::get('success'))

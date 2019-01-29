@@ -77,6 +77,17 @@ class createController extends Controller
 			}
 	    }
 	}
+
+	public function seePost()
+	{
+		$listpost = DB::table('createBlog')
+                    ->orderBy('created_at','DESC')
+                    ->get();
+
+		#dd($listpost);
+    	return view('post.postPreview', ['listpost' => $listpost]);
+        
+	}
     public function list_post()
     {	
         
@@ -88,6 +99,7 @@ class createController extends Controller
 			Log::channel('log_app')->info('OpenPage: List post >> '.Session::get('Session_email').'|'.Session::get('Session_role_admin').'|'.count($listpost).'|');
 
 			if(count($listpost) > 0 ){
+				#dd($listpost);
 				return view('post.list_post', ['listpost' => $listpost]);
 			}else{
 				session()->flash('nodata',"no data found");
@@ -102,6 +114,7 @@ class createController extends Controller
 			Log::channel('log_app')->info('OpenPage: List post >> '.Session::get('Session_email').'|'.Session::get('Session_role_user').'|'.count($listpost).'|');
 				
 			if(count($listpost) > 0 ){
+
 				return view('post.list_post', ['listpost' => $listpost]);
 			}else{
 				session()->flash('nodata',"no data found");

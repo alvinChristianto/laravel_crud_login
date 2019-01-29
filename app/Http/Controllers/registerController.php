@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
 
 if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
     // Ignores notices and reports all other kinds... and warnings
@@ -70,4 +71,23 @@ class registerController extends Controller
 		}
 
 	}
+
+ 	public function alluser()
+ 	{
+ 		if(Session::has('Session_email') && Session::has('Session_role_admin')){
+        	$listAllUser = DB::table('users')
+						->orderBy('created_at','DESC')
+						->get();
+			#dd($listAllUser);
+			if(count($listAllUser) > 0 ){
+				return view('post.all_user', ['alluser' => $listAllUser]);
+			}else{
+				session()->flash('nodata',"no data found");
+				return view('post.all_user');
+	       	}
+		}
+		else{
+        	return redirect('401'); 
+    	}	
+ 	}
 }
