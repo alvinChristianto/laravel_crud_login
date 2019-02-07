@@ -28,6 +28,14 @@
 					          <strong>{{ $message }}</strong>
 					      </div>
 				  		@endif
+				  		@if ($errors->any())
+	                    <div class="alert alert-success alert-block">
+	                    	@foreach ($errors->all() as $error)
+	                    	<button type="button" class="close" data-dismiss="alert">×</button> 
+					          <strong>{{ $error }}</strong>
+					         @endforeach
+	                    </div>
+	                    @endif
 			
 						<h2 class="h1 font-weight-normal">Register</h2>
 						

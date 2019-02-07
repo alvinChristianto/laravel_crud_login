@@ -25,9 +25,8 @@ class HomeController extends Controller
                     ->orderBy('created_at','DESC')
                     ->get();
 
-
+        #dd($listpost);
         if(count($listpost) > 0 ){
-            #dd($listpost);
             return view('front', ['listpost' => $listpost]);
         }else{
             session()->flash('nodata',"no data found");

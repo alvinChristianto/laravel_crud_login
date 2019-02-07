@@ -27,6 +27,10 @@ class registerController extends Controller
 	}
 	public function postRegister(Request $request)
 	{        
+		$this->validate($request, [
+    		'password' => 'required|min:8',
+    	]);
+
 		function getUniqueId(){
 			$date = date('Ymd');
 			$datenow = $date.'_';

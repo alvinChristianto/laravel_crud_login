@@ -35,7 +35,14 @@
     </header>
 
     <!-- Main Content -->
+    
     @if (Session::has('Session_email') != 1)
+    @if ($message = Session::get('nodata'))
+                  <div class="alert alert-success alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button> 
+                      <strong>{{ $message }}</strong>
+                  </div>
+    @else
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
@@ -64,6 +71,7 @@
       </div>
     </div>
     <hr>
+    @endif
     @endif
     @endsection
    
