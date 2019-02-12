@@ -8,10 +8,8 @@
          @include('basefile.header')
     </div>
     @yield('main')
-    <footer class="page-footer font-small blue">
 
-       @include('basefile.footer')
+    @include('basefile.footer')
 
-    </footer>
 </body>
 </html>

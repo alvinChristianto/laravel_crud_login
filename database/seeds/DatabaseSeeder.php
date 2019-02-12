@@ -14,15 +14,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        $this->call(createblogTableSeeder::class);
         ##users
+        
         DB::table('users')->delete();
-        User::create(['id' => 'admin_1',
-                      'role_id' => '2',
-                      'username' => 'admin1',
-                      'name' => 'admin1',
-                      'email' => 'admin1@gmail.com',
-                      'password' => Hash::make('admin1')]);
+        
+        #User::create(['id' => 'admin_1',
+        #              'role_id' => '2',
+        #              'username' => 'admin1',
+        #              'name' => 'admin1',
+        #              'email' => 'admin1@gmail.com',
+        #              'password' => Hash::make('admin1')]);
 
         ##roles
         DB::table('roles')->delete();

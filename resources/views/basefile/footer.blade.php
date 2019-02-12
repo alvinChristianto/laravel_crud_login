@@ -1,7 +1,37 @@
- <div class="container">
-        <div class="row">
-          <div class="col-lg-8 col-md-10 mx-auto">
-            <ul class="list-inline text-center">
+<!-- Footer -->
+    <!-- Footer Text -->
+<footer class="page-footer font-small indigo" style="background-color: #a9abad">
+
+    <div class="container-fluid text-center text-md-left">
+
+      <!-- Grid row -->
+      <div class="row">
+
+        <!-- Grid column -->
+        <div class="col-md-6 ">
+
+          <!-- Content -->
+          <div class="text-center">
+             <a class="navbar-brand" href="{{ route('home') }}">
+                <img src="{{ asset('images/logo/logo.png') }}" class="img-fluid mx-auto" alt="Responsive image" width="120" height="120" >
+             </a>
+          </div>
+        </div>
+        <hr class="clearfix w-100 d-md-none pb-3">
+
+        <!-- Grid column -->
+        <div class="col-md-6  mx-auto ">
+
+          <!-- Content -->
+          <ul class="list-unstyled list-inline text-center py-2">
+            <li class="list-inline-item">
+               <a href="{{ route('register') }}" class="btn btn-outline-white btn-rounded">Register for Free</a>
+            </li>
+            <li class="list-inline-item">
+               <a href="{{ route('login') }}" class="btn btn-outline-white btn-rounded">Sign up!</a>
+            </li>
+          </ul>
+          <ul class="list-inline text-center">
               <li class="list-inline-item">
                 <a href="#">
                   <span class="fa-stack fa-lg">
@@ -27,13 +57,19 @@
                 </a>
               </li>
             </ul>
-            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
-          </div>
+
         </div>
+        <!-- Grid column -->
+
       </div>
+      <!-- Grid row -->
 
-<script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    </div>
+    <!-- Footer Text -->
 
-    <!-- Custom scripts for this template -->
-    <script src="js/clean-blog.min.js"></script>
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+      <a style="text-decoration: none; color: brown" href="{{ route('home') }}"> CreateIt</a>
+    </div>
+    <!-- Copyright -->
+</footer>
