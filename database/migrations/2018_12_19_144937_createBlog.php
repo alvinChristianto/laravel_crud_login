@@ -32,6 +32,6 @@ class CreateBlog extends Migration
      */
     public function down()
     {
-        Schema::drop('createBlog');
+        Schema::drop('createblog');
     }
 }
