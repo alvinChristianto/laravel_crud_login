@@ -13,7 +13,7 @@ class CreateBlog extends Migration
      */
     public function up()
     {
-         Schema::create('createBlog', function (Blueprint $table) {
+         Schema::create('createblog', function (Blueprint $table) {
             $table->string('id')->unique();
             $table->string('judul');
             $table->string('subjudul');
