@@ -21,7 +21,7 @@ class HomeController extends Controller
 {
     public function frontData()
     {   
-        $listpost = DB::table('createBlog')
+        $listpost = DB::table('createblog')
                     ->orderBy('created_at','DESC')
                     ->get();
 

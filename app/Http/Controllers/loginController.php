@@ -27,7 +27,7 @@ class loginController extends Controller
     {
         $data = $request->session()->has('Session_email');
         Log::debug('data!!'.$data);
-        $listpost = DB::table('createBlog')
+        $listpost = DB::table('createblog')
                     ->orderBy('created_at','DESC')
                     ->get();
 
