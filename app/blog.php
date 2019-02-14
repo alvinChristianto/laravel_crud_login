@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class blog extends Model
 {
-	protected $table = 'createBlog';
+	protected $table = 'createblog';
 	
     public $timestamps = true;
 }
