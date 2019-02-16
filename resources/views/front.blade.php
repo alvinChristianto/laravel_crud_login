@@ -3,7 +3,7 @@
 @if (Session::has('Session_email'))
     @section('title', 'login')
 @else
-    @section('title', 'no login')
+    @section('title', 'welcome')
 @endif
 
 @section('main')

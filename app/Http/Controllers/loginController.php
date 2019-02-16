@@ -43,7 +43,8 @@ class loginController extends Controller
     public function getLogin()
     {
         if(Session::has('Session_email')){
-            return view('welcome');
+            #dd('check');
+            return redirect('/homepage');
         }else{
             return view('login.login');
         }

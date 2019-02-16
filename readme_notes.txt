@@ -15,3 +15,7 @@ aplikasi sudah deploy di heroku dan database di db4free.net(alvin_lara, db4freem
 }
 
 4. heroku dan laravel logging. logging laravel di heroku berbeda. harus edit config/app.php lalu edit 'Log' => env('APP_LOG', 'errorlog'), lalu tulis log yang ingin dicatat dengan error_log('Try To Login >>'.$emailAdd.'|'.$pass.'|'.$role_id.'|');
+
+
+* deploy to db4free
+https://medium.com -> how to host a laravel app with mysql on heroku

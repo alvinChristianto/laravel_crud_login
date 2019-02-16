@@ -14,10 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call(usersTableSeeder::class);
         $this->call(createblogTableSeeder::class);
         ##users
-        
-        DB::table('users')->delete();
         
         #User::create(['id' => 'admin_1',
         #              'role_id' => '2',
