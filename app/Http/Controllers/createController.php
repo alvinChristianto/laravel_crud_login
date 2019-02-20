@@ -60,7 +60,7 @@ class createController extends Controller
 	    	}else{
 	
 				$blog->id = getIdPost();
-				$blog->judul = $request->judul;
+				$blog->judul = strtoupper($request->judul);
 				$blog->subjudul = $request->subjudul;
 				$blog->createby = $request->by;
 				$blog->para1 = $request->para1;

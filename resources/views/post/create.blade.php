@@ -59,12 +59,13 @@
                                 
                             </div>
                             <hr style="border-top: 3px solid rgb(249, 105, 105);">
-                            <!--<div class="form-group">
+                            
+                            <div class="form-group">
                                 <label>Upload Image</label>
                                 <div class="input-group">
                                     <span class="input-group-btn">
                                         <span class="btn btn-default">
-                                            <input type="file" name="file">
+                                            <input type="file" name="file" accept=".jpg,.jpeg,.png">
                                         </span>
                                         @if ($errors->has('file'))
                                         <span class="error-span">Input file lebih dari 2Mb atau tipe file salah</span>
@@ -74,7 +75,7 @@
 
                                 </div>
                             </div>
-                            -->
+                            
                             <div class="form-group">
                                 <div class="">
                                     <button type="submit" class="btn btn-primary text-capitalize">

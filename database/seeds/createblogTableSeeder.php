@@ -18,7 +18,7 @@ class createblogTableSeeder extends Seeder
         foreach($data as $obj)
         { blog::create(array(
         	'id' => $obj -> id,
-        	'judul' => $obj -> judul,
+        	'judul' => strtoupper($obj -> judul),
         	'subjudul' => $obj -> subjudul,
         	'createby' => $obj -> createby,
         	'para1' => $obj -> para1,
