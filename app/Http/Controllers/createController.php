@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
-
+use Validator;
 use App\blog;
+use App\upload_images;
+use Carbon\Carbon;
+use Image;
+use File;
+
 use Redirect;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -11,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Route;
+
 
 if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
     // Ignores notices and reports all other kinds... and warnings
@@ -20,6 +26,8 @@ if (version_compare(PHP_VERSION, '7.2.0', '>=')) {
 
 class createController extends Controller
 {
+	public $path;
+	public $dimensions;
 	public function createPost(Request $request)
     {
     	if(Session::has('Session_email')){    
@@ -30,19 +38,20 @@ class createController extends Controller
     	}
     	
     }
+    public function __construct()
+    {
+    	$this->path = storage_path('app/public/images');
+    	$this->dimensions = ['245', '300','500'];
+    }
     public function sendPost(Request $request)
     {	
-    	if(Session::has('Session_email')){    
+    	if(Session::has('Session_email')){  
+
 	       	Log::channel('log_app')->info('Create: Create post input >> '.$request->judul.'|'.$request->subjudul.'|'.$request->by.'|'.$request->para1.'|'.$request->para2.'|'.$request->para3.'|');
 	        
 
-			function getIdPost(){
-				$post = 'post'.'_';
-				return uniqid($post);
-			};
-			$blog = new blog;
-	
-				
+			$blog = new blog;				
+			
 			if(strlen($blog->judul) > 150){
 				session()->flash('error_Judul',"judul terlalu panjang : " .strlen($blog->judul). " karakter"); 
 	    		return \Redirect::back()->withInput();
@@ -55,9 +64,34 @@ class createController extends Controller
 			}else if (strlen($blog->para1) > 1000){
 				session()->flash('error_Para1',"paragrap terlalu panjang : " .strlen($blog->para1). " karakter"); 
 	    		return \Redirect::back()->withInput();	
-	    	    	
-
 	    	}else{
+	    		function getIdPost(){
+				$post = 'post'.'_';
+				return uniqid($post);
+				};
+	    		$messages = [
+   					'required' => ' Kolom :attribute  diperlukan.',
+   					'max' => ' :attribute tidak boleh lebih dari :max karakter',
+   					'image' => ' File harus bertipe gambar', 
+   					'mimes' => ' Tipe gambar hanya boleh berekstensi .jpg, .jpeg dan .png'
+				];
+				$rules = array(
+		    		'judul' => 'required|max:150',
+		    		'subjudul' => 'required|max:150',
+		    		'para1' => 'required|max:150',
+		    		'para2' => 'required|max:1000',
+		    		'para3' => 'required|max:1000',
+		    		'image' => 'required|image|mimes:jpg,png,jpeg'
+		    	);    	
+		    	#$validator = Validator::make($input, $rules, $messages);
+				$validator = Validator::make(Input::all(), $rules, $messages);
+		    	if($validator->fails()){
+ 					return Redirect::back()->withErrors($validator)->withInput();
+				}
+	    		if(!File::isDirectory($this->path)){
+				File::makeDirectory($this->path);
+				}
+
 	
 				$blog->id = getIdPost();
 				$blog->judul = strtoupper($request->judul);
@@ -66,16 +100,48 @@ class createController extends Controller
 				$blog->para1 = $request->para1;
 				$blog->para2 = $request->para2;
 				$blog->para3 = $request->para3;
-	
-				$blog->save();
+				$file = $request->file('image');
 
-				Log::channel('log_app')->info('Create: Create post saved >> '.$blog->id.'|'.$blog->judul.'|'.$blog->subjudul.'|'.$request->createby.'|'.$request->para1.'|'.$request->para2.'|'.$request->para3.'|');
+				$fileName = Carbon::now()->timestamp.'_'.uniqid().'.'.$file->getClientOriginalExtension();
+				Image::make($file)->save($this->path.'/'.$fileName);
+			
+				#foreach ($this->dimensions as $row) {
+		        #   
+		            #$resizeImage  = Image::make($file)->resize($row, $row, function($constraint) {
+		            #    $constraint->aspectRatio();
+		        #	$resizeImage  = Image::make($file)->fit(950, 623, function($constraint) {
+		        #       $constraint->upsize();
+		        	
+		        #	});
+		        #}
+		        $canvas = Image::canvas(950, 623);
+				$resizeImage  = Image::make($file)->fit(950, 623, function($constraint) {
+		                $constraint->upsize();
+		        });
+		       	if (!File::isDirectory($this->path . '/' . 950)) {
+		           File::makeDirectory($this->path . '/' . 950);
+		      	}
+	        	
+	            $canvas->insert($resizeImage, 'center');
+	            $canvas->save($this->path . '/' . 950 . '/' . $fileName);
+        		
+        //SIMPAN DATA IMAGE YANG TELAH DI-UPLOAD
+		        upload_images::create([
+		            'name' => $fileName,
+		            'dimensions' => implode('|', $this->dimensions),
+		            'path' => $this->path
+		        ]);
+				#dd("chekcpoint");
+
 				session()->flash('success', 'your post have been saved !'); 
-	    		#dd($blog->save());
+	    		$blog->save();
+				Log::channel('log_app')->info('Create: Create post saved >> '.$blog->id.'|'.$blog->judul.'|'.$blog->subjudul.'|'.$request->createby.'|'.$request->para1.'|'.$request->para2.'|'.$request->para3.'|');
+
 	    		return redirect('/list_post');
 				
-			}
-	    }
+				
+	    	}
+		}
 	}
 
 	public function seePost($id)

@@ -25,8 +25,8 @@
               <h2><b>Welcome, <i>{{ Session::get('Session_email') }}</i></b></h2>
               <span class="subheading">Create Something please</span>
               @else
-              <h1>Selamat Jalan2</i></h1>
-              <span class="subheading">murid e dijagani na</span>
+              <h1>Happy Weekend</i></h1>
+              <span class="subheading">Where Word Matters</span>
               @endif
             </div>
           </div>
