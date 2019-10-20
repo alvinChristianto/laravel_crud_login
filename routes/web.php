@@ -15,11 +15,12 @@
 #})->name('home');
 
 Route::get('/', 'HomeController@frontData')->name('home');
-
+Route::get('movie', 'HomeController@getMovie')->name('getMovie');
 
 Route::get('404', ['as' => '404', 'uses' => 'ErrorController@notfound']);
 Route::get('500', ['as' => '500', 'uses' => 'ErrorController@fatal']);
 Route::get('401', ['as' => '401', 'uses' => 'ErrorController@unauthorized']);
+
 
 Route::get('homepage', 'loginController@successLogin');
 Route::get('register', 'registerController@getRegister')->name('register');

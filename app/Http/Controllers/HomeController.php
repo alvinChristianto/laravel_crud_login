@@ -33,7 +33,23 @@ class HomeController extends Controller
                 return view('front');
         }
     }
-    
+
+    public function getMovie()
+    {   
+        #$command = escapeshellcmd('python /home/alvinchristianto/Documents/test/name.py alvin');
+        $command = escapeshellcmd('python /home/alvinchristianto/Documents/logging/bukalapak/21cine/scrX1.py')
+        $data = shell_exec($command);
+
+        $listData = DB::connection('mysql2')
+                    ->select('select * from TB_MOVIE_LIST order by movie_id desc');
+        //$listData->setConnection('mysql2');
+        #$listData = DB::table('TB_SEQ_ID')
+        #           ->orderBy('idseq','DESC')
+        #            ->get();
+        //dd($listData);
+        return view('movie.getmovie', ['listData' => $listData]);
+    }
    
    
 }
+
