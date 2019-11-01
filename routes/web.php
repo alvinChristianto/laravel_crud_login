@@ -1,4 +1,6 @@
 <?php
+#use App\Mail\NewUserNotification;
+#use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,18 @@
 #	Route::get('homeController@frontData');
 #})->name('home');
 
+
+#mail mailtrap
+#Route::get('send-mail', function () {
+#    Mail::to(get('email'))->send(new NewUserNotification()); 
+#    return 'A message has been sent to Mailtrap!';
+
+#}) ->name('send-mail');
+
+
+
+
+
 Route::get('/', 'HomeController@frontData')->name('home');
 Route::get('movie', 'HomeController@getMovie')->name('getMovie');
 
@@ -26,6 +40,10 @@ Route::get('homepage', 'loginController@successLogin');
 Route::get('register', 'registerController@getRegister')->name('register');
 Route::get('login', 'loginController@getLogin')->name('login');
 Route::post('postRegister', 'registerController@postRegister');
+
+#verify
+Route::get('/user/verify/{token}', 'registerController@verifyUser');
+	
 Route::post('postLogin', 'loginController@postLogin');
 Route::get('all_user', 'registerController@alluser')->name('all_user');
 
