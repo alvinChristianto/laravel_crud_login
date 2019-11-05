@@ -14,7 +14,7 @@ class CreateSeqMovie extends Migration
     public function up()
     {
         #schema drop tidak bekerja jadi ditaruh diatas
-        Schema::connection('mysql2')->drop('tb_seq_id');
+        #Schema::connection('mysql2')->drop('tb_seq_id');
         #Schema::create('tb_seq_id', function (Blueprint  $table){
         Schema::connection('mysql2')->create('tb_seq_id', function($table){
             $table->unsignedInteger('idseq')->unique();

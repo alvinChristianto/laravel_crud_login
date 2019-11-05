@@ -14,7 +14,8 @@ class CreatePythonMovieList extends Migration
     public function up()
     {
         #schema drop tidak bekerja jadi ditaruh diatas
-        Schema::connection('mysql2')->drop('tb_movie_list');
+        #Schema::connection('mysql2')->drop('tb_movie_list');
+        
         #Schema::create('tb_movie_list', function (Blueprint  $table){
         Schema::connection('mysql2')->create('tb_movie_list', function($table){
             $table->unsignedInteger('movie_id')->unique();
